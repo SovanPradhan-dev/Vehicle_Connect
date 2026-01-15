@@ -69,7 +69,7 @@ export default function Signin() {
 
         <button
           type="button"
-          onClick={() => navigate("/signup")}
+          onClick={() => navigate("/register")}
           className="w-full border p-2 rounded"
         >
           Sign Up
