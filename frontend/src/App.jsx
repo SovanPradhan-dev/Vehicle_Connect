@@ -1,9 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home.jsx";
-import Register from "./pages/register.jsx";
-import Signin from "./pages/signin.jsx";
-import SelectRole from "./pages/SelectRole.jsx";
+import Register from "./pages/Register.jsx";
+import Signin from "./pages/Signin.jsx";
 import Location from "./pages/Location.jsx";
 import Vehicle from "./pages/Vehicle.jsx";
 import OwnerDashboard from "./pages/OwnerDashboard.jsx";
@@ -11,7 +10,7 @@ import RegisterVehicle from "./pages/RegisterVehicle.jsx";
 import Requests from "./pages/Requests.jsx";
 import Role from "./pages/SelectRole.jsx"
 
-import ProtectedRoute from "./routes/protectedRoute.jsx";
+import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import RoleRoute from "./routes/RoleRoute.jsx"
 const App = () => {
   return (
