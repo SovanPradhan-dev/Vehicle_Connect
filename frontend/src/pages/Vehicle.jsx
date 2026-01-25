@@ -13,7 +13,7 @@ export default function Vehicle() {
   const pincode = location.state?.pincode || savedLocation?.pincode;
 
   const [vehicles, setVehicles] = useState([]);
-  const [requests, setRequests] = useState([]); // ← Track user's requests
+  const [requests, setRequests] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedType, setSelectedType] = useState("");
@@ -25,16 +25,11 @@ export default function Vehicle() {
     { type: "Bike", icon: "🏍️" },
   ];
 
-  // Fetch vehicles
   const fetchVehicles = async () => {
     try {
       setLoading(true);
       const res = await API.get("/vehicles", {
-        params: {
-          city,
-          pincode,
-          type: selectedType || undefined,
-        },
+        params: { city, pincode, type: selectedType || undefined },
       });
       setVehicles(res.data);
     } catch (err) {
@@ -45,7 +40,6 @@ export default function Vehicle() {
     }
   };
 
-  // Fetch my requests
   const fetchMyRequests = async () => {
     try {
       const res = await API.get("/bookings/my");
@@ -64,51 +58,52 @@ export default function Vehicle() {
     fetchMyRequests();
   }, [city, pincode, selectedType]);
 
-  // Helper: get request status for a vehicle
   const getRequestStatus = (vehicleId) => {
     if (!Array.isArray(requests)) return null;
     const req = requests.find((r) => r.vehicleId === vehicleId);
-    return req ? req.status : null; // "pending", "accepted", "rejected"
+    return req ? req.status : null;
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Navbar role="seeker" />
 
-      <div className="max-w-5xl mx-auto px-4 py-6">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">
-            Nearby Vehicles {city && `in ${city}`}
-          </h2>
-        </div>
+      <div className="max-w-6xl mx-auto px-6 py-8 space-y-8">
+        {/* Header */}
+        <h2 className="text-3xl font-bold text-gray-800">
+          Nearby Vehicles {city && `in ${city}`}
+        </h2>
 
         {/* Vehicle Type Filter */}
-        <div className="flex gap-3 mb-4">
+        <div className="flex gap-3 overflow-x-auto py-2">
           {VEHICLES.map((v) => (
             <button
               key={v.type}
               onClick={() =>
                 setSelectedType(selectedType === v.type ? "" : v.type)
               }
-              className={`border rounded-lg p-3 flex flex-col items-center gap-1 transition
-                ${
-                  selectedType === v.type
-                    ? "border-blue-600 bg-blue-50"
-                    : "hover:border-gray-400"
-                }
-              `}
+              className={`flex flex-col items-center gap-1 px-4 py-3 rounded-xl border transition-all duration-300 
+                ${selectedType === v.type
+                  ? "bg-blue-50 border-blue-500 text-blue-600 shadow-md"
+                  : "bg-white border-gray-300 hover:border-blue-400 hover:shadow-sm"
+                }`}
             >
               <span className="text-2xl">{v.icon}</span>
-              <span className="text-sm">{v.type}</span>
+              <span className="text-sm font-medium">{v.type}</span>
             </button>
           ))}
         </div>
 
-        {/* Loading */}
+        {/* Loading Skeleton */}
         {loading && (
-          <p className="text-center text-gray-500 animate-pulse">
-            Loading vehicles...
-          </p>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3, 4].map((i) => (
+              <div
+                key={i}
+                className="bg-white/50 backdrop-blur-md rounded-2xl p-6 animate-pulse h-40"
+              ></div>
+            ))}
+          </div>
         )}
 
         {/* Error */}
@@ -116,18 +111,18 @@ export default function Vehicle() {
 
         {/* Vehicle List */}
         {!loading && !error && (
-          <div className="grid gap-4">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {vehicles.length > 0 ? (
               vehicles.map((v) => (
                 <VehicleCard
                   key={v._id}
                   vehicle={v}
                   requestStatus={getRequestStatus(v._id)}
-                  onBookingSuccess={fetchMyRequests} // refresh requests after new booking
+                  onBookingSuccess={fetchMyRequests}
                 />
               ))
             ) : (
-              <p className="text-center text-gray-500 py-10">
+              <p className="text-center text-gray-500 py-10 text-lg">
                 No vehicles found
               </p>
             )}

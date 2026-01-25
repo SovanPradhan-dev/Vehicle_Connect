@@ -17,7 +17,7 @@ export default function OwnerDashboard() {
     try {
       const res = await API.get("/owner/vehicles");
       setVehicles(res.data);
-    } catch (err) {
+    } catch {
       setError("Failed to load vehicles");
     } finally {
       setLoadingVehicles(false);
@@ -29,7 +29,7 @@ export default function OwnerDashboard() {
     try {
       const res = await API.get("/owner/requests");
       setRequests(res.data);
-    } catch (err) {
+    } catch {
       setError("Failed to load requests");
     } finally {
       setLoadingRequests(false);
@@ -44,14 +44,11 @@ export default function OwnerDashboard() {
   // Toggle vehicle availability
   const toggleAvailability = async (vehicleId) => {
     try {
-      const res = await API.patch(
-        `/owner/vehicles/${vehicleId}/availability`
-      );
-
+      const res = await API.patch(`/owner/vehicles/${vehicleId}/availability`);
       setVehicles((prev) =>
         prev.map((v) => (v._id === vehicleId ? res.data.vehicle : v))
       );
-    } catch (err) {
+    } catch {
       alert("Failed to update availability");
     }
   };
@@ -63,73 +60,69 @@ export default function OwnerDashboard() {
       setRequests((prev) =>
         prev.map((r) => (r._id === requestId ? res.data.request : r))
       );
-    } catch (err) {
+    } catch {
       alert("Failed to update request");
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Navbar role="owner" />
 
-      <div className="max-w-5xl mx-auto px-4 py-6 space-y-8">
+      <div className="max-w-6xl mx-auto px-6 py-10 space-y-12">
 
         {/* ================= VEHICLES ================= */}
         <div>
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold">My Vehicles</h2>
-
-            {vehicles.length > 0 && (
-              <button
-                onClick={() => navigate("/registervehicle")}
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-              >
-                + Add Vehicle
-              </button>
-            )}
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-800">My Vehicles</h2>
+            <button
+              onClick={() => navigate("/registervehicle")}
+              className="bg-gradient-to-r from-green-500 to-green-600 text-white px-5 py-2 rounded-xl shadow-lg hover:from-green-600 hover:to-green-700 transition transform hover:scale-105"
+            >
+              + Add Vehicle
+            </button>
           </div>
 
           {loadingVehicles ? (
-            <p className="text-center animate-pulse">Loading vehicles...</p>
+            <div className="grid gap-4 md:grid-cols-2">
+              {[1, 2].map((i) => (
+                <div key={i} className="bg-white/50 backdrop-blur-md rounded-2xl p-6 animate-pulse h-32"></div>
+              ))}
+            </div>
           ) : vehicles.length === 0 ? (
-            <div className="bg-white p-6 rounded-xl shadow text-center space-y-4">
-              <p className="text-gray-600 font-medium">
+            <div className="bg-white p-8 rounded-2xl shadow text-center space-y-4">
+              <p className="text-gray-600 font-medium text-lg">
                 You have not registered any vehicle yet 🚗
               </p>
-
               <button
                 onClick={() => navigate("/registervehicle")}
-                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
               >
                 Register Vehicle
               </button>
             </div>
           ) : (
-            <div className="grid gap-4">
+            <div className="grid gap-6 md:grid-cols-2">
               {vehicles.map((v) => (
                 <div
                   key={v._id}
-                  className="bg-white p-4 rounded-xl shadow flex justify-between items-center"
+                  className="bg-white/50 backdrop-blur-md rounded-2xl shadow-lg p-6 flex justify-between items-center transition transform hover:-translate-y-1 hover:shadow-xl"
                 >
                   <div>
-                    <h3 className="font-semibold text-gray-800">{v.type}</h3>
+                    <h3 className="font-semibold text-gray-800 text-lg">{v.type}</h3>
                     <p className="text-sm text-gray-500">
                       Price: ₹{v.pricePerKm}/km · City: {v.city}
                     </p>
-                    <p
-                      className={`text-sm mt-1 font-medium ${
-                        v.isAvailable
-                          ? "text-green-600"
-                          : "text-red-600"
-                      }`}
-                    >
+                    <span className={`inline-block mt-2 px-2 py-1 text-sm font-semibold rounded-full ${
+                      v.isAvailable ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                    }`}>
                       {v.isAvailable ? "Available" : "Unavailable"}
-                    </p>
+                    </span>
                   </div>
 
                   <button
                     onClick={() => toggleAvailability(v._id)}
-                    className={`px-4 py-2 rounded-lg text-white ${
+                    className={`px-4 py-2 rounded-lg text-white font-medium transition transform hover:scale-105 ${
                       v.isAvailable
                         ? "bg-red-600 hover:bg-red-700"
                         : "bg-green-600 hover:bg-green-700"
@@ -145,55 +138,55 @@ export default function OwnerDashboard() {
 
         {/* ================= REQUESTS ================= */}
         <div>
-          <h2 className="text-2xl font-bold mb-4">Booking Requests</h2>
+          <h2 className="text-3xl font-bold text-gray-800 mb-6">Booking Requests</h2>
 
           {loadingRequests ? (
-            <p className="text-center animate-pulse">Loading requests...</p>
-          ) : requests.length === 0 ? (
-            <p className="text-center text-gray-500">No booking requests</p>
-          ) : (
             <div className="space-y-4">
+              {[1, 2].map((i) => (
+                <div key={i} className="bg-white/50 backdrop-blur-md rounded-2xl p-6 animate-pulse h-28"></div>
+              ))}
+            </div>
+          ) : requests.length === 0 ? (
+            <p className="text-center text-gray-500 text-lg">No booking requests</p>
+          ) : (
+            <div className="space-y-6">
               {requests.map((r) => (
                 <div
                   key={r._id}
-                  className="bg-white p-4 rounded-xl shadow flex justify-between items-center"
+                  className="bg-white/50 backdrop-blur-md rounded-2xl shadow-lg p-6 flex justify-between items-center transition transform hover:-translate-y-1 hover:shadow-xl"
                 >
                   <div>
-                    <p className="font-medium">
-                      Vehicle: {r.vehicle?.type} · ₹
-                      {r.vehicle?.pricePerKm}/km · {r.city}
+                    <p className="font-medium text-gray-800">
+                      Vehicle: {r.vehicle?.type} · ₹{r.vehicle?.pricePerKm}/km · {r.city}
                     </p>
-
-                    <p
-                      className={`text-sm mt-1 ${
-                        r.status === "pending"
-                          ? "text-yellow-600"
-                          : r.status === "accepted"
-                          ? "text-green-600"
-                          : "text-red-600"
-                      }`}
-                    >
-                      Status: {r.status}
-                    </p>
+                    <span className={`inline-block mt-2 px-2 py-1 text-sm font-semibold rounded-full ${
+                      r.status === "pending"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : r.status === "accepted"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-red-100 text-red-800"
+                    }`}>
+                      {r.status.charAt(0).toUpperCase() + r.status.slice(1)}
+                    </span>
 
                     {r.status === "accepted" && (
-                      <p className="text-sm text-gray-600 mt-1">
+                      <p className="text-sm text-gray-600 mt-2">
                         {r.seeker?.name} — {r.seeker?.email}
                       </p>
                     )}
                   </div>
 
                   {r.status === "pending" && (
-                    <div className="flex gap-2">
+                    <div className="flex gap-3">
                       <button
                         onClick={() => handleRequest(r._id, "accepted")}
-                        className="bg-green-600 text-white px-3 py-1 rounded"
+                        className="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition"
                       >
                         Accept
                       </button>
                       <button
                         onClick={() => handleRequest(r._id, "rejected")}
-                        className="bg-red-600 text-white px-3 py-1 rounded"
+                        className="bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition"
                       >
                         Reject
                       </button>
@@ -205,7 +198,7 @@ export default function OwnerDashboard() {
           )}
         </div>
 
-        {error && <p className="text-center text-red-500">{error}</p>}
+        {error && <p className="text-center text-red-500 text-lg">{error}</p>}
       </div>
     </div>
   );
