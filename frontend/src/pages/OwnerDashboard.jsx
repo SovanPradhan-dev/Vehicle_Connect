@@ -69,7 +69,7 @@ export default function OwnerDashboard() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Navbar role="owner" />
 
-      <div className="max-w-6xl mx-auto px-6 py-10 space-y-12">
+      <div className="max-w-6xl mx-auto px-6 py-24 space-y-12">
 
         {/* ================= VEHICLES ================= */}
         <div>

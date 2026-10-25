@@ -60,7 +60,10 @@ export default function Vehicle() {
 
   const getRequestStatus = (vehicleId) => {
     if (!Array.isArray(requests)) return null;
-    const req = requests.find((r) => r.vehicleId === vehicleId);
+    const req = requests.find((r) => {
+      const vid = r.vehicle?._id || r.vehicle || r.vehicleId;
+      return vid?.toString() === vehicleId?.toString();
+    });
     return req ? req.status : null;
   };
 
@@ -68,7 +71,7 @@ export default function Vehicle() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Navbar role="seeker" />
 
-      <div className="max-w-6xl mx-auto px-6 py-8 space-y-8">
+      <div className="max-w-6xl mx-auto px-6 py-24 space-y-8">
         {/* Header */}
         <h2 className="text-3xl font-bold text-gray-800">
           Nearby Vehicles {city && `in ${city}`}

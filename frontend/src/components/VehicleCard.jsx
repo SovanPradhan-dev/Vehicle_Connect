@@ -18,14 +18,14 @@ export default function VehicleCard({ vehicle, requestStatus, onBookingSuccess }
   };
 
   return (
-    <div className="bg-white p-4 rounded shadow flex justify-between items-center">
+    <div className="bg-white rounded-2xl shadow-lg p-6 flex justify-between items-center hover:shadow-xl transition transform hover:-translate-y-1">
       <div>
-        <h3 className="font-semibold">{vehicle.type}</h3>
+        <h3 className="font-semibold text-lg text-gray-800">{vehicle.type}</h3>
         <p className="text-sm text-gray-500">
-          ₹{vehicle.pricePerKm}/hr • {vehicle.city}
+          ₹{vehicle.pricePerKm}/km • {vehicle.city}
         </p>
         <p
-          className={`text-sm font-medium ${
+          className={`text-sm font-medium mt-1 ${
             vehicle.isAvailable ? "text-green-600" : "text-red-600"
           }`}
         >
@@ -33,7 +33,7 @@ export default function VehicleCard({ vehicle, requestStatus, onBookingSuccess }
         </p>
 
         {requestStatus && (
-          <p className="mt-1 text-sm">
+          <p className="mt-2 text-sm">
             Status:{" "}
             <span
               className={
@@ -51,11 +51,11 @@ export default function VehicleCard({ vehicle, requestStatus, onBookingSuccess }
       </div>
 
       <button
-        disabled={!vehicle.isAvailable || requestStatus === "accepted"}
+        disabled={!vehicle.isAvailable || requestStatus === "accepted" || requestStatus === "pending"}
         onClick={requestBooking}
-        className="bg-blue-600 text-white px-3 py-1 rounded disabled:opacity-50"
+        className="bg-blue-600 text-white px-4 py-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-700 transition"
       >
-        {requestStatus === "accepted" ? "Accepted" : requestStatus === "pending" ? "Requested" : "Request"}
+        {requestStatus === "accepted" ? "Accepted" : requestStatus === "pending" ? "Requested" : requestStatus === "rejected" ? "Rejected" : "Request"}
       </button>
     </div>
   );

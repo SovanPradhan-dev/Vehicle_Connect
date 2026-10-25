@@ -49,17 +49,45 @@ router.get("/requests", auth, async (req, res) => {
 
 // Accept / Reject booking
 router.patch("/requests/:id", auth, async (req, res) => {
-  const booking = await Booking.findById(req.params.id);
-  booking.status = req.body.status;
+  try {
+    const { status } = req.body;
+    if (!["accepted", "rejected"].includes(status)) {
+      return res.status(400).json({ msg: "Invalid status" });
+    }
 
-  if (req.body.status === "accepted") {
-    await Vehicle.findByIdAndUpdate(booking.vehicle, {
-      available: false,
-    });
+    const booking = await Booking.findById(req.params.id).populate("vehicle");
+    if (!booking) {
+      return res.status(404).json({ msg: "Booking not found" });
+    }
+    if (booking.owner.toString() !== req.user.id) {
+      return res.status(403).json({ msg: "Not authorized" });
+    }
+    if (booking.status !== "pending") {
+      return res.status(400).json({ msg: "Booking already processed" });
+    }
+
+    booking.status = status;
+
+    if (status === "accepted") {
+      await Vehicle.findByIdAndUpdate(booking.vehicle._id || booking.vehicle, {
+        isAvailable: false,
+      });
+    } else if (status === "rejected") {
+      // Make vehicle available again if it was marked unavailable on request creation
+      await Vehicle.findByIdAndUpdate(booking.vehicle._id || booking.vehicle, {
+        isAvailable: true,
+      });
+    }
+
+    await booking.save();
+    const updatedBooking = await Booking.findById(booking._id)
+      .populate("vehicle", "type pricePerKm city")
+      .populate("seeker", "name email");
+    res.json({ success: true, request: updatedBooking });
+  } catch (err) {
+    console.error("Update request error:", err);
+    res.status(500).json({ msg: "Failed to update request" });
   }
-
-  await booking.save();
-  res.json({ success: true, request: booking });
 });
 
 export default router;

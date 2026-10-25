@@ -69,7 +69,7 @@ export default function RegisterVehicle() {
     <>
       <Navbar role="owner" />
 
-      <div className="max-w-md mx-auto mt-10 bg-white p-6 rounded-xl shadow">
+      <div className="max-w-md mx-auto mt-24 bg-white p-6 rounded-xl shadow">
         <h2 className="text-xl font-bold mb-4 text-gray-800">
           Register Your Vehicle
         </h2>

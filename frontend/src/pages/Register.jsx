@@ -28,21 +28,21 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white">
       <form
         onSubmit={handleSubmit}
-        className="bg-white w-96 p-8 rounded shadow-md flex flex-col gap-4"
+        className="bg-white w-96 p-8 rounded-2xl shadow-lg flex flex-col gap-4"
       >
-        <h2 className="text-center text-xl font-bold">Register</h2>
+        <h2 className="text-center text-2xl font-bold text-gray-800">Register</h2>
 
-        {error && <p className="text-red-600">{error}</p>}
+        {error && <p className="text-red-600 text-sm text-center">{error}</p>}
 
         <input
           type="text"
           placeholder="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="border px-3 py-2 rounded w-full"
+          className="border px-3 py-2 rounded-lg w-full"
           required
         />
 
@@ -51,7 +51,7 @@ export default function RegisterPage() {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border px-3 py-2 rounded w-full"
+          className="border px-3 py-2 rounded-lg w-full"
           required
         />
 
@@ -60,13 +60,13 @@ export default function RegisterPage() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border px-3 py-2 rounded w-full"
+          className="border px-3 py-2 rounded-lg w-full"
           required
         />
 
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
           disabled={loading}
         >
           {loading ? "Registering..." : "Register"}
@@ -75,7 +75,7 @@ export default function RegisterPage() {
         <p className="text-center mt-2">
           Already have an account?{" "}
           <span
-            className="text-blue-600 cursor-pointer"
+            className="text-blue-600 cursor-pointer hover:underline"
             onClick={() => navigate("/login")}
           >
             Login

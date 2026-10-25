@@ -8,18 +8,18 @@ export default function Home() {
     <div className="min-h-screen font-sans bg-gradient-to-b from-blue-50 to-white overflow-x-hidden">
 
       {/* NAVBAR */}
-      <nav className="fixed w-full z-50 bg-white/60 backdrop-blur-md shadow-md px-12 py-5 flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-blue-600 tracking-wide">VehicleRent</h1>
-        <div className="flex gap-5">
+      <nav className="fixed w-full z-50 bg-white/70 backdrop-blur-md shadow-md px-6 md:px-12 py-4 flex justify-between items-center">
+        <h1 className="text-2xl md:text-3xl font-bold text-blue-600 tracking-wide cursor-pointer" onClick={() => navigate("/")}>VehicleRent</h1>
+        <div className="flex gap-3 md:gap-5">
           <button
             onClick={() => navigate("/login")}
-            className="text-blue-600 font-medium hover:text-blue-700 transition"
+            className="text-blue-600 font-medium hover:text-blue-700 transition px-3 py-1"
           >
             Login
           </button>
           <button
             onClick={() => navigate("/register")}
-            className="bg-blue-600 text-white px-5 py-2 rounded-xl shadow-lg hover:bg-blue-700 transition transform hover:scale-105"
+            className="bg-blue-600 text-white px-4 md:px-5 py-2 rounded-xl shadow-lg hover:bg-blue-700 transition transform hover:scale-105"
           >
             Get Started
           </button>
@@ -27,24 +27,24 @@ export default function Home() {
       </nav>
 
       {/* HERO */}
-      <section className="flex flex-col-reverse lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 pt-36 pb-32 gap-10">
+      <section className="flex flex-col-reverse lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 pt-32 pb-24 gap-10">
         <div className="lg:w-1/2 text-center lg:text-left space-y-6">
-          <h1 className="text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight">
             Rent or List Vehicles <span className="text-gradient bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">Easily & Securely</span>
           </h1>
           <p className="text-gray-600 text-lg max-w-md mx-auto lg:mx-0">
             A modern vehicle rental platform for owners and seekers. Manage bookings, earn revenue, or find your next ride—all in one secure place.
           </p>
-          <div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start mt-6">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-6">
             <button
               onClick={() => navigate("/register")}
-              className="px-8 py-4 bg-blue-600 text-white rounded-2xl font-semibold hover:bg-blue-700 shadow-xl transition transform hover:scale-105"
+              className="px-6 md:px-8 py-3 md:py-4 bg-blue-600 text-white rounded-2xl font-semibold hover:bg-blue-700 shadow-xl transition transform hover:scale-105"
             >
               Become an Owner
             </button>
             <button
               onClick={() => navigate("/register")}
-              className="px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-2xl font-semibold hover:bg-blue-50 transition transform hover:scale-105"
+              className="px-6 md:px-8 py-3 md:py-4 border-2 border-blue-600 text-blue-600 rounded-2xl font-semibold hover:bg-blue-50 transition transform hover:scale-105"
             >
               Rent a Vehicle
             </button>

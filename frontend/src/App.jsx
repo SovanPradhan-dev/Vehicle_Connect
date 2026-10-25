@@ -8,10 +8,11 @@ import Vehicle from "./pages/Vehicle.jsx";
 import OwnerDashboard from "./pages/OwnerDashboard.jsx";
 import RegisterVehicle from "./pages/RegisterVehicle.jsx";
 import Requests from "./pages/Requests.jsx";
-import Role from "./pages/SelectRole.jsx"
+import Role from "./pages/SelectRole.jsx";
 
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
-import RoleRoute from "./routes/RoleRoute.jsx"
+import RoleRoute from "./routes/RoleRoute.jsx";
+
 const App = () => {
   return (
     <Router>
@@ -20,7 +21,6 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Signin />} />
         <Route path="/signin" element={<Signin />} />
-
 
         <Route
           path="/location"
@@ -40,7 +40,6 @@ const App = () => {
           }
         />
 
-        {/* 🏠 OWNER ROUTES */}
         <Route
           path="/ownerdashboard"
           element={
@@ -67,7 +66,8 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/role" element = {<RoleRoute><Role/></RoleRoute>}/>
+
+        <Route path="/role" element={<RoleRoute><Role /></RoleRoute>} />
       </Routes>
     </Router>
   );

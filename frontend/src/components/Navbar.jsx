@@ -5,7 +5,7 @@ export default function Navbar({ role }) {
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  // Safely get username from localStorage
+  const userRole = role || localStorage.getItem("mode");
   const userName = localStorage.getItem("userName") || "User";
 
   return (
@@ -20,7 +20,7 @@ export default function Navbar({ role }) {
 
       {/* Menu Links */}
       <div className="flex items-center gap-6">
-        {role === "seeker" && (
+        {(userRole === "seeker") && (
           <>
             <Link to="/location" className="text-gray-700 hover:text-blue-600 transition">
               Find Vehicles
@@ -31,16 +31,15 @@ export default function Navbar({ role }) {
           </>
         )}
 
-        {role === "owner" && (
+        {(userRole === "owner") && (
           <>
-            <Link to="/owner/dashboard" className="text-gray-700 hover:text-blue-600 transition">
+            <Link to="/ownerdashboard" className="text-gray-700 hover:text-blue-600 transition">
               Dashboard
             </Link>
-            <Link to="/owner/requests" className="text-gray-700 hover:text-blue-600 transition">
+            <Link to="/requests" className="text-gray-700 hover:text-blue-600 transition">
               Requests
             </Link>
 
-            {/* Add Vehicle Button */}
             <button
               onClick={() => navigate("/registervehicle")}
               className="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-xl shadow hover:from-green-600 hover:to-green-700 transition transform hover:scale-105"

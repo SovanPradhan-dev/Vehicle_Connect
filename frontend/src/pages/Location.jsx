@@ -41,29 +41,30 @@ export default function Location() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center">
-      <div className="w-96 border p-6 rounded bg-white shadow-md">
-        <h2 className="text-lg font-bold mb-4">Enter Location</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-50 to-white">
+      <div className="w-96 border p-6 rounded-2xl bg-white shadow-lg">
+        <h2 className="text-xl font-bold mb-4 text-gray-800">Enter Location</h2>
 
         {error && <p className="text-red-600 mb-3">{error}</p>}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
             placeholder="City"
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded-lg"
             value={city}
             onChange={(e) => setCity(e.target.value)}
           />
           <input
             placeholder="Pincode"
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded-lg"
             value={pincode}
-            onChange={(e) => setPincode(e.target.value)}
+            onChange={(e) => setPincode(e.target.value.replace(/\D/g, ""))}
+            maxLength={6}
           />
 
           <button
             type="submit"
-            className="w-full bg-green-600 text-white p-2 rounded"
+            className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition"
             disabled={loading}
           >
             {loading ? "Finding..." : "Find Vehicles"}
